@@ -1,0 +1,80 @@
+/* Gitlab CI 設定執行流程 */
+stages:
+  - linter
+  - testing
+  - build
+  - deploy
+
+/* 設定 image,也可以寫到stage 裡變成區域image 
+# image:"Image_name":version -> image: alpine:latest 
+
+/* 設定全域變數,也可以寫進 Stage 裡面變成區域變數
+variables:
+  my_name : Peter
+
+/* 執行第一個 stage */
+/* give name as "stage_linter" */
+stage_linter:
+  // 設定要使用的Runner //
+  tags:
+    - "Runner_name"
+  // 設定 Stage //
+  stage : linter
+  // 設定執行內容 //
+  script:
+    - echo "Hello World!! $my_name"
+
+/* 執行第二個 stage */
+stage_testing:
+  // 設定要使用的Runner //
+  tags:
+    - "Runner_name"
+  // 設定 Stage //
+  stage : testing
+  // 設定在testing中,在bad_job 執行完才執行 stage_testing //
+  needs:
+    - bad_job
+  // 設定執行內容 //
+  script : 
+    - echo "執行 testing"
+
+/* 執行第二個 stage */
+bad_job:
+  // 設定要使用的Runner //
+  tags:
+    - "Runner_name"
+  // 設定 Stage //
+  stage : testing
+  // 設定執行內容 //
+  script : 
+    - echo "執行 testing"
+
+/* 執行第三個 stage */
+stage_build_Docker_image:
+  // 設定執行分支 //
+  only :
+    - main
+  # 也可以用 except : - master,除了 master 分支都要執行
+  // 設定要使用的Runner //
+  tags:
+    - "Runner_name"
+  // 設定 Stage //
+  stage : build
+  // 設定執行內容 //
+  script : 
+    - echo "執行 build"
+
+/* 執行第四個 stage */
+stage_deploy_to_production:
+  // 設定執行分支 //
+  only :
+    - main
+  // 設定要使用的Runner //
+  tags:
+    - "Runner_name"
+  // 設定 Stage //
+  stage : deploy
+  // 設定執行內容 //
+  script : 
+    - echo "執行 deploy"
+
