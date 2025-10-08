@@ -1,0 +1,18 @@
+# etms-minio/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: etms-minio-svc
+spec:
+  type: ClusterIP # 僅在叢集內部可見
+  selector:
+    app: etms-minio # 選擇所有帶有 'app: etms-minio' 標籤的 Pod
+  ports:
+    - name: api
+      protocol: TCP
+      port: 9000       # Service 監聽的端口
+      targetPort: api  # 轉發到 Pod 的 containerPort 名稱 'api'
+    - name: console
+      protocol: TCP
+      port: 9001
+      targetPort: console

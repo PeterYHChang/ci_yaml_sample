@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: etms-minio-ingress                             # TODO: update
+  annotations:
+    kubernetes.io/ingress.allow-http: "false"                       # TODO: update 
+  labels:
+    name: etms-minio-ingress 
+spec:
+  rules:
+  - host: api-etms-minio.k8s-dev.k8s.wistron.com     # TODO: update 
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: etms-minio-svc
+            port: 
+              number: 9000
+  - host: etms-minio.k8s-dev.k8s.wistron.com     # TODO: update 
+    http:
+      paths: "/"
+      - pathType: Prefix
+        path: 
+        backend:
+          service:
+            name: etms-minio-svc
+            port: 
+              number: 9001
+  tls:
+  - hosts:
+    - api-etms-minio.k8s-dev.k8s.wistron.com  # API port
+    - etms-minio.k8s-dev.k8s.wistron.com  # UI port

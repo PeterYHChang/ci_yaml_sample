@@ -1,0 +1,17 @@
+# storage for data or files
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    owner: peter_yh_chang@wistron.com
+  finalizers:
+    - kubernetes.io/pvc-protection
+  name: etms-minio-pvc #pvc name
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ssd-gp1
+  volumeMode: Filesystem
