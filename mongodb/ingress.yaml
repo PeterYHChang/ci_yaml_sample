@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: erfdm-mongodb                               # TODO: update
+  annotations:
+    kubernetes.io/ingress.allow-http: "false"  
+  labels:
+    name: erfdm-mongodb                             # TODO: update 
+spec:
+  rules:
+  - host: erfdm-mongodb.k8s-prd.k8s.wistron.com     # TODO: update 
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: erfdm-mongodb                     # TODO: update 
+            port: 
+              number: 27017
+  tls:
+  - hosts:
+    - erfdm-mongodb.k8s-prd.k8s.wistron.com
